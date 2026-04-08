@@ -1,7 +1,7 @@
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
-class UseCase9TrainConsistMgmt {
+class UseCase10TrainConsistMgmt {
 
     // Bogie model
     static class Bogie {
@@ -22,7 +22,7 @@ class UseCase9TrainConsistMgmt {
     public static void main(String[] args) {
 
         System.out.println("=========================================");
-        System.out.println("UC9 - Group Bogies by Type");
+        System.out.println("UC10 - Count Total Seats in Train");
         System.out.println("=========================================\n");
 
         // Create list of bogies
@@ -32,27 +32,19 @@ class UseCase9TrainConsistMgmt {
         bogies.add(new Bogie("AC Chair", 56));
         bogies.add(new Bogie("First Class", 24));
         bogies.add(new Bogie("Sleeper", 70));
-        bogies.add(new Bogie("AC Chair", 60));
 
-        // Display all bogies
-        System.out.println("All Bogies:");
+        // Display bogies
+        System.out.println("Bogies in Train:");
         bogies.forEach(System.out::println);
 
-        // Group using groupingBy
-        Map<String, List<Bogie>> groupedBogies =
-                bogies.stream()
-                        .collect(Collectors.groupingBy(b -> b.name));
+        // 🔥 STREAM REDUCE OPERATION
+        int totalSeats = bogies.stream()
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);      // sum all
 
-        // Display grouped structure
-        System.out.println("\nGrouped Bogies:");
+        // Display result
+        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
 
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-            System.out.println("\nBogie Type: " + entry.getKey());
-            for (Bogie b : entry.getValue()) {
-                System.out.println("Capacity -> " + b.capacity);
-            }
-        }
-
-        System.out.println("\nUC9 grouping completed...");
+        System.out.println("\nUC10 aggregation completed...");
     }
 }
